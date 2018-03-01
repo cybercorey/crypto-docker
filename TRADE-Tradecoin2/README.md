@@ -1,31 +1,23 @@
 # Getting Started
 ```sh
-$ git clone https://github.com/cybercorey/crypto-docker
-$ cd crypto-docker/TRADE-Tradecoin2
-$ docker build -t crypto-docker-trade . 
-$ mkdir /home/batman/.tradecoin
-$ docker run -it --rm -p 5900 --mount type=bind,source=/home/batman/.tradecoin,destination=/root/.tradecoin crypto-docker-trade
+# Clone this Repo
+git clone https://github.com/cybercorey/crypto-docker
+# Select Tradecoin
+cd crypto-docker/TRADE-Tradecoin2
+# Generate VNC password (only needed once)
+x11vnc -usepw
+# Build docker image (go grab a beer and wait :)!)
+docker build -t crypto-docker-trade . 
+# Shared data dir, you may also want to create tradecoin.conf and add a few nodes
+mkdir /home/$USER/.tradecoin
+# Run the docker!
+docker run -d -it --rm -p 5900 --mount type=bind,source=/home/$USER/.vnc,destination=/root/.vnc --mount type=bind,source=/home/$USER/.tradecoin,destination=/root/.tradecoin crypto-docker-trade
 ```
-Note: Unless your username really is batman, you may want to tweak this example.  And recall that the mount option wants absolute paths.
 
-The prior step creates and runs a container and gives you a command prompt on it.  From that prompt:
 
+Next...
 ```sh
-$ . /entrypoint.sh    <- notice the leading dot and space!
-$ ./tradecoin-qt &
-$ x11vnc -display :1 -usepw
-```
-Notice the leading '. ' for entrypoint.  Doing this will execute the entrypoint.sh in the context of the calling shell.  We need to do this because the script will set the DISPLAY enviornment variable and we want it to stay set.
-
-Next, execute tradecoin-qt in demonic mode (see the trailing &)
-
-
-Finally, execute x11vnc so that you can see tradecoin-qt from a VNC viewer on the host.  When this first runs, it will ask for a password.  Invent any password you like.  You'll need this password in your VNC viewer.
-
-
-Next, in a 2nd shell...
-```sh
-$ docker ps
+docker ps
 ```
 This will give you a display of all your running containers.  Hopefully you'll see **crypt-docker-tradecoin** and can determine which port on the local host it's using.
 

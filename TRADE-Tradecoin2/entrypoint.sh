@@ -7,3 +7,5 @@ systemd-machine-id-setup
 export DISPLAY=:1
 Xvfb :1 -screen 0 1024x768x16 &
 
+/Tradecoin/tradecoin-qt &
+x11vnc -display :1 -usepw
